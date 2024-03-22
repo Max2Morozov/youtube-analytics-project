@@ -1,5 +1,4 @@
 print('Hello World')
-AIzaSyCN_xKi5vf3Sx71JmUWA103Ob4GIdS0hrA
 
 CHANNEL ID
 UCZ_B-KkMbNAsax9H6ohFTqw
