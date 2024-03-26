@@ -2,6 +2,8 @@ import json
 import os
 from googleapiclient.discovery import build
 
+'''Клонировал проект'''
+
 import isodate
 
 class Channel:
