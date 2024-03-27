@@ -14,42 +14,29 @@ class Channel:
 
     def __init__(self, channel_id: str) -> None:
         """Экземпляр инициализируется id канала. Дальше все данные будут подтягиваться по API."""
-        self.channel_id = channel_id
-        self.url = "https://www.youtube.com/channel/UCZ_B-KkMbNAsax9H6ohFTqw"
-        self.channel_info = self.youtube.channels().list(id=self.channel_id, part='snippet,statistics').execute()
-        self.title = self.channel_info['items'][0]['snippet']['title']
-        self.description = self.channel_info['items'][0]['snippet']['description']
-        self.url = f'https://www.youtube.com/channel/{self.channel_info["items"][0]["id"]}'
-        self.subs = self.channel_info['items'][0]['statistics']['subscriberCount']
-        self.video_count = self.channel_info['items'][0]['statistics']['videoCount']
-        self.views = self.channel_info['items'][0]['statistics']['viewCount']
-
-        self.__service = self.youtube
+        self.__channel_id = channel_id
+        self.__channel = self.youtube.channels().list(id=self.__channel_id, part='snippet,statistics').execute()
+        self.video_count = int(self.__channel['items'][0]['statistics']['videoCount'])
+        self.description: str = self.__channel['items'][0]['snippet']['description']
+        self.url = "https://www.youtube.com/channel/" + self.__channel_id
+        self.subscriber_count = int(self.__channel['items'][0]['statistics']['subscriberCount'])
+        self.name = self.__channel['items'][0]['snippet']['title']
+        self.view_count = int(self.__channel['items'][0]['statistics']['viewCount'])
+        self.title = self.__channel["items"][0]["snippet"]["title"]
 
     def print_info(self) -> None:
         """Выводит в консоль информацию о канале."""
+        print(self.__channel)
 
-        channel_info = self.youtube.channels().list(id=self.channel_id, part='snippet,statistics').execute()
-        print(json.dumps(channel_info, indent=2, ensure_ascii=False))
+    @property
+    def channel_id(self) -> str:
+        return self.__channel_id
 
-    '''
-    def print_info(self) -> None:
-        """Выводит в консоль информацию о канале."""
-        channel = self.youtube.channels().list(id=self.channel_id, part='snippet,statistics').execute()
-        return print(channel)
-    '''
+    @classmethod
+    def get_service(cls) -> str:
+        return cls.youtube
 
-    def to_json(self, filename):
-        """Cохраняет в файл значения атрибутов экземпляра `Channel`"""
-        channel_data = {
-            "channel_id": self.channel_id,
-            "title": self.title,
-            "description": self.description,
-            "url": self.url,
-            "subscriber_count": self.subs,
-            "video_count": self.video_count,
-            "view_count": self.views
-        }
-
-        with open(filename, "w", encoding="utf-8") as file:
-            json.dump(channel_data, file, indent=4, ensure_ascii=False)
+    def to_json(self, json_file: str) -> None:
+        """Записывает данные канала в указанный аргументом json file"""
+        with open(json_file, 'w', encoding='utf8') as f:
+            json.dump(self.__channel, f, indent=2, ensure_ascii=False)
