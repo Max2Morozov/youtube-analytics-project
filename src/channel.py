@@ -40,3 +40,55 @@ class Channel:
         """Записывает данные канала в указанный аргументом json file"""
         with open(json_file, 'w', encoding='utf8') as f:
             json.dump(self.__channel, f, indent=2, ensure_ascii=False)
+
+    # Domashka - 3
+    def __str__(self) -> str:
+        """
+        __str__
+        """
+        return f"{self.title} ({self.url})"
+
+    def __add__(self, other: int) -> int:
+        if not isinstance(other, Channel):
+            raise ValueError("Can only add Channel to another Channel")
+        return self.subscriber_count + other.subscriber_count
+
+    def __sub__(self, other: int) -> int:
+        """
+        -
+        """
+        if not isinstance(other, Channel):
+            raise ValueError("Can only subtract Channel to another Channel")
+        return self.subscriber_count - other.subscriber_count
+
+    def __lt__(self, other: int):
+        """
+        <
+        """
+        if not isinstance(other, Channel):
+            raise ValueError("Can only less Channel to another Channel")
+        return self.subscriber_count < other.subscriber_count
+
+    def __le__(self, other: int) -> bool:
+        """
+        <=
+        """
+        if not isinstance(other, Channel):
+            raise ValueError("Can only less than or equal to Channel to another Channel")
+        return self.subscriber_count <= other.subscriber_count
+
+    def __gt__(self, other: int) -> bool:
+        """
+        >
+        """
+        if not isinstance(other, Channel):
+            raise ValueError("Can only greater Channel to another Channel")
+        return self.subscriber_count > other.subscriber_count
+
+    def __ge__(self, other: int) -> bool:
+        """
+        >=
+        """
+        if not isinstance(other, Channel):
+            raise ValueError("Can only greater than or equal to Channel to another Channel")
+        return self.subscriber_count >= other.subscriber_count
