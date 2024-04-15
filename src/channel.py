@@ -92,3 +92,5 @@ class Channel:
         if not isinstance(other, Channel):
             raise ValueError("Can only greater than or equal to Channel to another Channel")
         return self.subscriber_count >= other.subscriber_count
+
+    ''' Проверка ветки '''
