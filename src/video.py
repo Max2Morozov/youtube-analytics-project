@@ -3,7 +3,7 @@ from googleapiclient.discovery import build
 
 
 class Video:
-    api_key: str = os.getenv('API-KEY')
+    api_key: str = os.getenv('API_KEY')
     youtube = build('youtube', 'v3', developerKey=api_key)
 
     def __init__(self, video_id):
